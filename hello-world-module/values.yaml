@@ -7,7 +7,7 @@ global:
 ## Module job image
 image:
   repository: ghcr.io/fybrik/hello-world-module
-  tag: main
+  tag: 0.5.0
   pullPolicy: IfNotPresent
 imagePullSecrets: []
 # Action (copy/read)
