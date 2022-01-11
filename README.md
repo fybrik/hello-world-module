@@ -129,9 +129,9 @@ metadata:
   name: storage-account
   namespace: fybrik-system
 spec:
-  endpoint:  "http://localstack.fybrik-notebook-sample.svc.cluster.local:4566"
-  regions:
-    - theshire
+  id: theshire
+  endpoints:
+    theshire: "http://localstack.fybrik-notebook-sample.svc.cluster.local:4566"
   secretRef:  bucket-creds
 EOF
 ```
@@ -169,8 +169,8 @@ while [[ $(kubectl get fybrikapplication my-notebook -n default -o 'jsonpath={.s
 
 4.  Check if module was triggered in `fybrik-blueprints`:
 ```bash
-kubectl get blueprint -n fybrik-blueprints
-kubectl describe blueprint my-notebook-default -n fybrik-blueprints
+kubectl get blueprint -n fybrik-system
+kubectl describe blueprint my-notebook-default -n fybrik-system
 kubectl get job -n fybrik-blueprints
 kubectl get pods -n fybrik-blueprints
 ```
