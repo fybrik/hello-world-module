@@ -169,10 +169,10 @@ kubectl apply -f fybrikapplication.yaml -n default
 while [[ $(kubectl get fybrikapplication my-notebook -n default -o 'jsonpath={.status.ready}') != "true" ]]; do echo "waiting for FybrikApplication" && sleep 5; done
 ```
 
-4.  Check if module was triggered in `fybrik-blueprints`:
+4.  Check if module was triggered:
 ```bash
-kubectl get blueprint -n fybrik-blueprints
-kubectl describe blueprint my-notebook-default -n fybrik-blueprints
+kubectl get blueprint -n fybrik-system
+kubectl describe blueprint my-notebook-default -n fybrik-system
 kubectl get job -n fybrik-blueprints
 kubectl get pods -n fybrik-blueprints
 ```
