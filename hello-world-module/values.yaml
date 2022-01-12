@@ -7,7 +7,7 @@ global:
 ## Module job image
 image:
   repository: ghcr.io/fybrik/hello-world-module
-  tag: main
+  tag: 0.6.0
   pullPolicy: IfNotPresent
 imagePullSecrets: []
 # Action (copy/read)
@@ -20,7 +20,7 @@ copy:
         bucket: #fybrik-test-bucket
         endpoint: #s3.eu-gb.cloud-object-storage.appdomain.cloud
         object_key: #car.data.parq
-      # Vault Holds details for retrieving credentials by the modules from Vault store.
+        # Vault Holds details for retrieving credentials by the modules from Vault store.
     vault:
       read:
         # Address is Vault address e.g. http://vault.fybrik-system:8200
