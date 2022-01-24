@@ -1,0 +1,18 @@
+
+Hello World Module!
+
+Connection name is s3
+
+Connection format is csv
+
+Vault credential address is http://vault.fybrik-system:8200
+
+Vault credential role is module
+
+Vault credential secret path is /v1/kubernetes-secrets/paysim-csv?namespace=fybrik-notebook-sample
+
+S3 bucket is demo
+
+S3 endpoint is http://localstack.fybrik-notebook-sample.svc.cluster.local:4566
+
+COPY SUCCEEDED
