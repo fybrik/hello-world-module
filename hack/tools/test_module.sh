@@ -124,38 +124,7 @@ stringData:
 EOF
 
 
-cat << EOF | kubectl apply -f -
-apiVersion: katalog.fybrik.io/v1alpha1
-kind: Asset
-metadata:
-  name: paysim-csv
-spec:
-  secretRef: 
-    name: paysim-csv
-  details:
-    dataFormat: csv
-    connection:
-      name: s3
-      s3:
-        endpoint: "http://localstack.fybrik-notebook-sample.svc.cluster.local:4566"
-        bucket: "demo"
-        object_key: "PS_20174392719_1491204439457_log.csv"
-  metadata:
-    name: Synthetic Financial Datasets For Fraud Detection
-    geography: theshire 
-    tags:
-      finance: true
-    columns:
-      - name: nameOrig
-        tags:
-          PII: true
-      - name: oldbalanceOrg
-        tags:
-          PII: true
-      - name: newbalanceOrig
-        tags:
-          PII: true
-EOF
+kubectl apply -f $WORKING_DIR/Asset-$moduleVersion.yaml -n fybrik-notebook-sample
 
 
 #fybrikstorage
@@ -173,18 +142,7 @@ stringData:
   secretAccessKey: "${SECRET_KEY}"
 EOF
 
-cat << EOF | kubectl apply -f -
-apiVersion:   app.fybrik.io/v1alpha1
-kind:         FybrikStorageAccount
-metadata:
-  name: storage-account
-  namespace: fybrik-system
-spec:
-  id: theshire
-  endpoints:
-    theshire: "http://localstack.fybrik-notebook-sample.svc.cluster.local:4566"
-  secretRef:  bucket-creds
-EOF
+kubectl apply -f $WORKING_DIR/fybrikStorage-$moduleVersion.yaml -n fybrik-system
 
 
 

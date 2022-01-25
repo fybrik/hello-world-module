@@ -1,7 +1,6 @@
-
 Hello World Module!
 
-Connection name is s3
+Connection name is paysim-csv
 
 Connection format is csv
 
