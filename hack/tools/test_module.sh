@@ -15,12 +15,20 @@ export SECRET_KEY=1234
 kubernetesVersion=$1
 fybrikVersion=$2
 moduleVersion=$3
+certManagerVersion=$4
+
+# Trim the last two charts of the module version
+# to construct the module resource path
+moduleResourceVersion=${moduleVersion%??}".0"
 
 if [ $kubernetesVersion == "kind19" ]
 then
     bin/kind delete cluster
     bin/kind create cluster --image=kindest/node:v1.19.11@sha256:07db187ae84b4b7de440a73886f008cf903fcf5764ba8106a9fd5243d6f32729
-
+elif [ $kubernetesVersion == "kind20" ]
+then
+    bin/kind delete cluster
+    bin/kind create cluster --image=kindest/node:v1.20.7@sha256:cbeaf907fc78ac97ce7b625e4bf0de16e3ea725daf6b04f930bd14c67c671ff9
 elif [ $kubernetesVersion == "kind21" ]
 then
     bin/kind delete cluster
@@ -47,7 +55,7 @@ helm repo update
 
 helm install cert-manager jetstack/cert-manager \
     --namespace cert-manager \
-    --version v1.2.0 \
+    --version v$certManagerVersion \
     --create-namespace \
     --set installCRDs=true \
     --wait --timeout 220s
@@ -84,7 +92,7 @@ helm install fybrik fybrik-charts/fybrik -n fybrik-system --version v$fybrikVers
 # hello-world-module
 
 #datashim
-kubectl apply -f https://raw.githubusercontent.com/datashim-io/datashim/master/release-tools/manifests/dlf.yaml
+kubectl apply -f ../../third_party/datashim/dlf.yaml
 kubectl wait --for=condition=ready pods -l app.kubernetes.io/name=dlf -n dlf --timeout=500s
 
 
@@ -124,7 +132,7 @@ stringData:
 EOF
 
 
-kubectl apply -f $WORKING_DIR/Asset-$moduleVersion.yaml -n fybrik-notebook-sample
+kubectl apply -f $WORKING_DIR/Asset-$moduleResourceVersion.yaml -n fybrik-notebook-sample
 
 
 #fybrikstorage
@@ -142,12 +150,12 @@ stringData:
   secretAccessKey: "${SECRET_KEY}"
 EOF
 
-kubectl apply -f $WORKING_DIR/fybrikStorage-$moduleVersion.yaml -n fybrik-system
+kubectl apply -f $WORKING_DIR/fybrikStorage-$moduleResourceVersion.yaml -n fybrik-system
 
 
 
 
-kubectl -n fybrik-system create configmap sample-policy --from-file=$WORKING_DIR/sample-policy-$moduleVersion.rego
+kubectl -n fybrik-system create configmap sample-policy --from-file=$WORKING_DIR/sample-policy-$moduleResourceVersion.rego
 kubectl -n fybrik-system label configmap sample-policy openpolicyagent.org/policy=rego
 
 c=0
