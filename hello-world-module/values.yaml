@@ -11,8 +11,8 @@ image:
   pullPolicy: IfNotPresent
 imagePullSecrets: []
 # Action (copy/read)
-copy:
-  # Copy source
+assets:
+- assetID: "fybrik-notebook-sample/paysim-csv"
   source:
     connection:
       name: s3

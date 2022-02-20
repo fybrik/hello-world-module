@@ -14,8 +14,9 @@ image:
 imagePullSecrets: []
 
 # Action (copy/read)
-copy:
+assets:
   # Copy source
+- assetID: "fybrik-notebook-sample/paysim-csv"
   source:
     connection:
       name: s3
