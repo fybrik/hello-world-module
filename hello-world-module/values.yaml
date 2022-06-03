@@ -7,47 +7,46 @@ global:
 ## Module job image
 image:
   repository: ghcr.io/fybrik/hello-world-module
-  tag: main
+  tag: 0.7.0
   pullPolicy: IfNotPresent
 imagePullSecrets: []
 # Action (copy/read)
 assets:
-- args:
-  - connection:
-      name: s3
-      s3:
-        bucket: #fybrik-test-bucket
-        endpoint: #s3.eu-gb.cloud-object-storage.appdomain.cloud
-        object_key: #car.data.parq
-      # Vault Holds details for retrieving credentials by the modules from Vault store.
-    vault:
-      read:
-        # Address is Vault address e.g. http://vault.fybrik-system:8200
-        address:
-        # AuthPath is the path to auth method used to login to Vault e.g. /v1/auth/kubernetes/login
-        authPath:
-        # Role is the Vault role used for retrieving the credentials e.g. module
-        role:
-        # SecretPath is the path of the secret holding the Credentials in Vault e.g. /v1/kubernetes-secrets/secret-name?namespace=default
-        secretPath:
-    format: #parquet
-  # Copy destination
-  - connection:
-      name: s3
-      s3:
-        bucket: #fybrik-test-bucket
-        endpoint: #s3.eu-gb.cloud-object-storage.appdomain.cloud
-        object_key: #car.data.parq
-    vault:
-      write:
-        address: #http://vault.fybrik-system:8200
-        authPath: #/v1/auth/authpath/login
-        role: #module
-        secretPath: #/v1/kubernetes-secrets/secret-name?namespace=default
-    format: #csv
-  assetID: ""
-  capability: copy
-
+  - args:
+      - connection:
+          name: s3
+          s3:
+            bucket: #fybrik-test-bucket
+            endpoint: #s3.eu-gb.cloud-object-storage.appdomain.cloud
+            object_key: #car.data.parq
+            # Vault Holds details for retrieving credentials by the modules from Vault store.
+        vault:
+          read:
+            # Address is Vault address e.g. http://vault.fybrik-system:8200
+            address:
+            # AuthPath is the path to auth method used to login to Vault e.g. /v1/auth/kubernetes/login
+            authPath:
+            # Role is the Vault role used for retrieving the credentials e.g. module
+            role:
+            # SecretPath is the path of the secret holding the Credentials in Vault e.g. /v1/kubernetes-secrets/secret-name?namespace=default
+            secretPath:
+        format: #parquet
+      # Copy destination
+      - connection:
+          name: s3
+          s3:
+            bucket: #fybrik-test-bucket
+            endpoint: #s3.eu-gb.cloud-object-storage.appdomain.cloud
+            object_key: #car.data.parq
+        vault:
+          write:
+            address: #http://vault.fybrik-system:8200
+            authPath: #/v1/auth/authpath/login
+            role: #module
+            secretPath: #/v1/kubernetes-secrets/secret-name?namespace=default
+        format: #csv
+    assetID: ""
+    capability: copy
 nameOverride: ""
 fullnameOverride: ""
 ## Job configurations
