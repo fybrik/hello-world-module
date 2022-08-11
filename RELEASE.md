@@ -15,4 +15,6 @@ You can do that [directly from GitHub](https://docs.github.com/en/pull-requests/
 
 Use `vX.Y.Z` tag and set `releases/X.Y.Z` as the target.
 
+Update `spec.chart.values.image.tag` and `spec.chart.name` tags in hello-world-module.yaml to be `X.Y.Z` and attach it to the release.
+
 Ensure that the release notes explicitly mention upgrade instructions and any breaking change.
